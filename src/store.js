@@ -28,7 +28,7 @@ const topics = (...names) => names.map((name) => ({ id: uid(), name, done: false
 function seed() {
   const t = todayStr()
   return {
-    profile: { name: 'Anshita', targetCgpa: 8, currentCgpa: 6.2 },
+    profile: { name: 'Ansshita', targetCgpa: 8, currentCgpa: 6.2 },
     subjects: [
       { id: uid(), name: 'Quantum Mechanics', degree: 'physics', credits: 4, weak: true, examDate: addDays(t, 45),
         topics: topics('Wave function & Born rule', 'Schrödinger equation', 'Particle in a box', 'Harmonic oscillator', 'Operators & commutators', 'Hydrogen atom') },
@@ -60,7 +60,11 @@ function seed() {
 function load() {
   try {
     const raw = localStorage.getItem(KEY)
-    if (raw) return { ...seed(), ...JSON.parse(raw) }
+    if (raw) {
+      const saved = { ...seed(), ...JSON.parse(raw) }
+      if (saved.profile.name === 'Anshita') saved.profile = { ...saved.profile, name: 'Ansshita' }
+      return saved
+    }
   } catch {}
   return seed()
 }
